@@ -89,7 +89,7 @@ app.post("/createPost", uploadMiddleware.single('file'), async (req, res, next) 
   const { originalname, path } = req.file;
   const parts = originalname.split(".");
   const ext = parts[parts.length - 1];
-  const newPath = `./uploads/${parts[0]}.${ext}`;
+  const newPath = `${parts[0]}.${ext}`;
   fs.renameSync(path, newPath);
 
   const { title, summary, content } = req.body;
