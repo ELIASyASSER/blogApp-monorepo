@@ -1,29 +1,36 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
-import img1 from '../assets/cat-01.jpg'
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-function Post({_id,title,summary,cover,content,createdAt,author}) {
-  const time = new Date(createdAt).toDateString()
+function Post({ _id, title, summary, cover, createdAt, author }) {
+  const time = new Date(createdAt).toDateString();
+
   return (
-    <div className='post'>
+    <div className='post bg-white rounded-lg shadow-lg overflow-hidden mb-8 transition-transform '>
       <div className='img'>
-      <Link to={`/post/${_id}`}>
-      <img src={"http://localhost:4000/"+cover} alt='img'/>
-      </Link>
-      </div>
-      <div className='text'>
         <Link to={`/post/${_id}`}>
-      <h2>{title}</h2>
+          <img
+            className='w-full h-64 object-cover transition-opacity duration-300 hover:opacity-90'
+            src={`http://localhost:4000/${cover}`}
+            alt='Post Cover'
+          />
         </Link>
-        <p className='info'> 
-          <a className='author'>{author.username}</a>
-          <time>{time}</time>
-        </p>
-
-        <p>{summary}</p>
       </div>
-</div>
-  )
+      <div className='p-6'>
+        <Link to={`/post/${_id}`}>
+          <h2 className='text-3xl font-bold mb-3 text-gray-900 hover:text-blue-600 transition-colors duration-300'>
+            {title}
+          </h2>
+        </Link>
+        <div className='flex items-center space-x-4 text-gray-400 text-sm mb-4'>
+          <span className='author font-semibold text-gray-700 hover:text-gray-900 transition-colors duration-300'>
+            {author.username}
+          </span>
+          <time className='italic'>{time}</time>
+        </div>
+        <p className='text-gray-700 leading-relaxed'>{summary}</p>
+      </div>
+    </div>
+  );
 }
 
-export default Post
+export default Post;

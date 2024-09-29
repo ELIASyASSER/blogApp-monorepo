@@ -43,13 +43,54 @@ function CreatePost() {
   }
 
     return (
-    <form className='form-container' onSubmit={newPost}>
-      <input type='title' required placeholder='title ' value={title} onChange={(e)=>setTitle(e.target.value)}/>
-      <input type='summary' required min={"100"} placeholder='enter the summary ' value={summary} onChange={(e)=>setSummary(e.target.value)} />
-      <input type='file' required  onChange={(e)=>setFile(e.target.files)}/>
-        <ReactQuill  required modules={modules} formats={formats} value={content} onChange={(newValue)=>setContent(newValue)}/>
-      <button type="submit">Create Post</button>
+      <form className='form-container bg-white shadow-md rounded-lg p-6 space-y-6' onSubmit={newPost}>
+      {/* Title Input */}
+      <input
+        type='text'
+        required
+        placeholder='Title'
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        className='w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400'
+      />
+      
+      {/* Summary Input */}
+      <textarea
+        required
+        placeholder='Enter the summary (min 100 characters)'
+        minLength="100"
+        value={summary}
+        onChange={(e) => setSummary(e.target.value)}
+        className='w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none'
+      />
+      
+      {/* File Input */}
+      <input
+        type='file'
+        required
+        onChange={(e) => setFile(e.target.files)}
+        className='w-full px-4 py-2 text-gray-600 border border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-gray-500'
+      />
+      
+      {/* React Quill Editor */}
+      <ReactQuill
+        required
+        modules={modules}
+        formats={formats}
+        value={content}
+        onChange={(newValue) => setContent(newValue)}
+        className='w-full h-64 mb-4'
+      />
+      
+      {/* Submit Button */}
+      <button
+        type='submit'
+        className='w-full bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition-colors duration-300'
+      >
+        Create Post
+      </button>
     </form>
+    
   )
 }
 

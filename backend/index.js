@@ -91,7 +91,7 @@ app.post("/createPost", uploadMiddleware.single('file'), async (req, res, next) 
   const ext = parts[parts.length - 1];
   const newPath = `${parts[0]}.${ext}`;
   fs.renameSync(path, newPath);
-
+  
   const { title, summary, content } = req.body;
   const { token } = req.cookies;
 
@@ -136,7 +136,7 @@ app.get("/post/:id", async (req, res, next) => {
       return next(new BadRequest("Post not found"));
     }
     res.json(post);
-  } catch (error) {
+  } catch (error) { 
     next(error); // Pass the error to the error-handling middleware
   }
 });
