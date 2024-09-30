@@ -12,8 +12,19 @@ const jwt = require("jsonwebtoken");
 const notFound = require("./middleware/notfound");
 const BadRequest = require("./errors/badRequest");
 const unAuthenticated = require("./errors/unauthenticated");
-const errorHandlerMiddleware = require("./middleware/errorHandler");
-const uploadMiddleware = multer({ dest: "./uploads" });
+const errorHandlerMiddleware = require("./middleware/errorhandler");
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, "./uploads")
+    },
+    filename: function (req, file, cb) {
+        const parts = file.originalname.split(".");
+        const ext = parts[parts.length - 1];
+        cb(null, `${Date.now()}.${ext}`);
+    },
+});
+
+const uploadMiddleware = multer({ storage });
 
 // Middlewares
 app.use(express.json());
@@ -86,11 +97,7 @@ app.post("/logout", (req, res) => {
 
 // Create Post Route
 app.post("/createPost", uploadMiddleware.single('file'), async (req, res, next) => {
-  const { originalname, path } = req.file;
-  const parts = originalname.split(".");
-  const ext = parts[parts.length - 1];
-  const newPath = `${parts[0]}.${ext}`;
-  fs.renameSync(path, newPath);
+  const { filename } = req.file;
   
   const { title, summary, content } = req.body;
   const { token } = req.cookies;
@@ -105,7 +112,7 @@ app.post("/createPost", uploadMiddleware.single('file'), async (req, res, next) 
       title,
       summary,
       content,
-      cover: newPath,
+      cover: filename,
       author: tokenInfo.id,
     });
     res.json(post);
@@ -121,7 +128,12 @@ app.get("/post", async (req, res, next) => {
       .populate("author", ["username"])
       .sort({ createdAt: -1 })
       .limit(20);
-    res.json(posts);
+    res.json(
+        posts.map((post) => ({
+            ...post.toJSON(),
+            cover: `/uploads/${post.cover}`
+        }))
+    );
   } catch (error) {
     next(error); // Pass the error to the error-handling middleware
   }
@@ -135,7 +147,10 @@ app.get("/post/:id", async (req, res, next) => {
     if (!post) {
       return next(new BadRequest("Post not found"));
     }
-    res.json(post);
+    res.json({
+        ...post.toJSON(),
+        cover: `/uploads/${post.cover}`
+    });
   } catch (error) { 
     next(error); // Pass the error to the error-handling middleware
   }

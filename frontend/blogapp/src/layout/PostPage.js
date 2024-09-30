@@ -20,7 +20,7 @@ function PostPage() {
       <div className='img mb-4'>
         <img
           className='w-full h-64 object-cover rounded-lg'
-          src={`http://localhost:4000/${postInfo.cover}`}
+          src={`http://localhost:4000${postInfo.cover}`}
           alt={postInfo.title}
         />
       </div>
