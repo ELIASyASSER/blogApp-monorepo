@@ -11,7 +11,6 @@ function Home() {
 
   }, [])
   
-  console.log("testing",posts);
     
   return (
     <>

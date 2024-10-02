@@ -23,6 +23,7 @@ function CreatePost() {
         'link', 'image'
       ];
   async function newPost(e){
+    
     const data = new FormData()
     data.set("title",title)
     data.set("summary",summary)
@@ -89,6 +90,7 @@ function CreatePost() {
       >
         Create Post
       </button>
+      
     </form>
     
   )

@@ -128,6 +128,7 @@ app.get("/post", async (req, res, next) => {
       .populate("author", ["username"])
       .sort({ createdAt: -1 })
       .limit(20);
+      
     res.json(
         posts.map((post) => ({
             ...post.toJSON(),

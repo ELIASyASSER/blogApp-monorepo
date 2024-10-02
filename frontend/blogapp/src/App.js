@@ -7,6 +7,7 @@ import Home from './layout/home';
 import Register from './layout/register';
 import CreatePost from './createPost';
 import PostPage from './layout/PostPage';
+import DeleteButton from './layout/deleteBtn';
 
 function App() {
   return (

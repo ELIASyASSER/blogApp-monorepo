@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import DeleteButton from './deleteBtn';
+
+
 function Post({ _id, title, summary, cover, createdAt, author }) {
   const time = new Date(createdAt).toDateString();
 
@@ -29,6 +32,8 @@ function Post({ _id, title, summary, cover, createdAt, author }) {
         </div>
         <p className='text-gray-700 leading-relaxed'>{summary}</p>
       </div>
+      <DeleteButton id={_id}/>
+
     </div>
   );
 }

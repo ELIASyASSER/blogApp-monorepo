@@ -31,7 +31,7 @@ function PostPage() {
         <span className='text-sm font-bold'>By {postInfo.author.username}</span>
       </div>
       <div
-        className='prose max-w-none'
+        className='prose max-w-none break-words'
         dangerouslySetInnerHTML={{ __html: postInfo.content }}
       />
     </div>
