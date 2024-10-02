@@ -10,7 +10,7 @@ function Post({ _id, title, summary, cover, createdAt, author }) {
         <Link to={`/post/${_id}`}>
           <img
             className='w-full h-64 object-cover transition-opacity duration-300 hover:opacity-90'
-            src={`http://localhost:4000/${cover}`}
+            src={`http://localhost:4000${cover}`}
             alt='Post Cover'
           />
         </Link>
