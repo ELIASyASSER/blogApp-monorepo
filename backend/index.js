@@ -10,7 +10,6 @@ const rateLimiter = require("express-rate-limit")
 const cookieParser = require("cookie-parser");
 const notFound = require("./middleware/notfound");
 const errorHandlerMiddleware = require("./middleware/errorhandler");
-
 // Middlewares
 app.use(express.json());
 app.use("/uploads", express.static(__dirname + "/uploads"));
@@ -19,8 +18,8 @@ app.use(cookieParser());
 app.use(xss())
 app.use(helmet())
 app.use(rateLimiter({
-  windowMs:15*60*1000,
-  max:200
+  windowMs:10*60*1000,
+  max:800
 }))
 
 app.use(router)

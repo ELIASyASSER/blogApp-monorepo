@@ -1,21 +1,21 @@
 import React from 'react';
+import { FaEye } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-
-import DeleteButton from './deleteBtn';
 
 
 function Post({ _id, title, summary, cover, createdAt, author }) {
   const time = new Date(createdAt).toDateString();
 
   return (
-    <div className='post bg-white rounded-lg shadow-lg overflow-hidden mb-8 transition-transform '>
-      <div className='img'>
-        <Link to={`/post/${_id}`}>
+<>
+  <div className='img '>
+        <Link to={`/post/${_id}` } className='relative '>
           <img
-            className='w-full h-64 object-cover transition-opacity duration-300 hover:opacity-90'
+            className='w-full h-64 object-cover transition-opacity duration-300 hover:opacity-90 '
             src={`http://localhost:4000${cover}`}
             alt='Post Cover'
           />
+          <FaEye className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-[rgba(0,0,0,0.5)] text-white  hover:text-blue-500 transition-all z-20 w-1/2 h-1/4 p-2 m-auto rounded-lg'/>
         </Link>
       </div>
       <div className='p-6'>
@@ -30,11 +30,10 @@ function Post({ _id, title, summary, cover, createdAt, author }) {
           </span>
           <time className='italic'>{time}</time>
         </div>
-        <p className='text-gray-700 leading-relaxed'>{summary}</p>
+        <p className='text-gray-700 leading-relaxed theSummary'>{summary}</p>
       </div>
-      <DeleteButton id={_id}/>
+      </>
 
-    </div>
   );
 }
 
