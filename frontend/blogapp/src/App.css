@@ -13,3 +13,14 @@ body{
 a{
   text-decoration: none;
 }
+.the-content img{
+  width: 200px;
+}
+.theSummary{
+  display: -webkit-box;            /* Use a flexbox for truncation */
+  -webkit-line-clamp: 3;           /* Number of lines to show */
+  -webkit-box-orient: vertical;    /* Vertical orientation of the box */
+  overflow: hidden;                /* Hide the overflowing text */
+  text-overflow: ellipsis;         /* Show the "..." for truncation */
+  line-clamp: 3;       
+} 

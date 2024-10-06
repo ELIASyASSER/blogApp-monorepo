@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import {FaPen, FaTrash,} from 'react-icons/fa'
+import { useUser } from '../context';
+import Modal from './modal';
 function PostPage() {
+  const {modalOpen,setModalOpen} = useUser()
+
   const { id } = useParams();
   const [postInfo, setPostInfo] = useState(null);
 
@@ -31,9 +35,15 @@ function PostPage() {
         <span className='text-sm font-bold'>By {postInfo.author.username}</span>
       </div>
       <div
-        className='prose max-w-none break-words'
+        className='prose max-w-none break-words leading-loose the-content  '
         dangerouslySetInnerHTML={{ __html: postInfo.content }}
       />
+
+      <div className='flex justify-center items-center'>
+        <Link to={'/editPost/'+postInfo._id} className='bg-black text-white px-6 py-4 rounded-lg font-semibold my-4  w-fit'><FaPen/></Link>
+        <button  className='text-white bg-red-600 px-6 py-4 font-mono uppercase m-4 rounded-lg shadow-lg  transition hover:bg-orange-700'onClick={ ()=> setModalOpen(true)}><FaTrash/></button>
+      </div>
+      {modalOpen&&<Modal/>}
     </div>
   );
 }

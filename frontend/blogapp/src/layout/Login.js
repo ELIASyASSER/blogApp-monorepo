@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
-
+import { useUser } from '../context';
 function Login() {
+  const  {refetchUser} = useUser()
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
@@ -15,13 +16,17 @@ function Login() {
       credentials: "include",
     });
     if (res.ok) {
+      refetchUser()
       setRedirect(true);
     } else {
       alert("Wrong Credentials");
     }
+  
+  
   };
 
   if (redirect) {
+    
     return <Navigate to={'/'} />;
   }
 

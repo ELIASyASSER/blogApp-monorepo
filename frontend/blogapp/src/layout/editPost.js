@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
-import './index.css'
-import { Navigate } from 'react-router-dom'
-function CreatePost() {
+import { Navigate ,useParams} from 'react-router-dom'
+function EditPost() {
+    const {id} = useParams()
     const [redirect,setRedirect] = useState(false)
     const [title,setTitle] = useState("")
     const [summary,setSummary] = useState("")
@@ -22,22 +22,52 @@ function CreatePost() {
         'list', 'bullet', 'indent',
         'link', 'image'
       ];
-  async function newPost(e){
-    
+
+      React.useEffect(()=>{
+        fetch('http://localhost:4000/post/'+id).then(info=>info.json()).then(data=>{
+            setTitle(data.title)
+            setContent(data.content)
+            setSummary(data.summary)
+            setFile(data.cover)
+            
+            
+        })
+        
+
+      },[])
+
+
+
+
+
+  async function editPost(e){
+    e.preventDefault()
     const data = new FormData()
     data.set("title",title)
-    data.set("summary",summary)
     data.set("content",content)
+    data.set("id",id)
+    data.set("summary",summary)
     data.set("file",file[0])
-    e.preventDefault()
-    const res = await fetch("http://localhost:4000/createPost",{
-        method:"POST",
-        credentials:"include",
-        body:data
+    const res =  await fetch("http://localhost:4000/post",{
+        method:"PUT",
+        body:data,
+        credentials:"include"
     })
-    if(res.ok){
-      setRedirect(true)
+    if (res.ok){
+        setRedirect(true)
     }
+    const info = await res.json()
+    alert(info.error)
+
+
+    // const res = await fetch("http://localhost:4000/editPost",{
+    //     method:"Put",
+    //     credentials:"include",
+    //     body:data
+    // })
+    // if(res.ok){
+    //   setRedirect(true)
+    // }
   }
   if(redirect){
     return <Navigate to={'/'}/>
@@ -45,7 +75,7 @@ function CreatePost() {
 
     return (
   
-      <form className='form-container m-8 bg-white p-3 overflow-hidden shadow-md  rounded-lg p-6 space-y-6 min-h-min' onSubmit={newPost}>
+      <form className='form-container m-8 bg-white p-3 overflow-hidden shadow-md  rounded-lg p-6 space-y-6 min-h-min' onSubmit={editPost}>
       {/* Title Input */}
       <input
         type='text'
@@ -60,11 +90,10 @@ function CreatePost() {
       <textarea
         required
         placeholder='Enter the summary (min 10 characters)'
-        minLength="180"
-        maxLength="500"
+        minLength="10"
         value={summary}
         onChange={(e) => setSummary(e.target.value)}
-        className='w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none'
+        className='w-full px-4 py-2 border rounded-lg overflow-hidden min-h-min focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none '
       />
       
       {/* File Input */}
@@ -82,15 +111,15 @@ function CreatePost() {
         formats={formats}
         value={content}
         onChange={(newValue) => setContent(newValue)}
-        className='w-full h-64 mb-10  overflow-auto '
+        className='w-full h-64 mb-10  overflow-hidden '
       />
       
       {/* Submit Button */}
       <button
         type='submit'
-        className='w-full bg-blue-500 m-5 text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition-colors duration-300'
+        className='w-4/5 block mx-auto bg-green-500 m-5 text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition-colors duration-300'
       >
-        Create Post
+        Edit Post
       </button>
       
     </form>
@@ -98,4 +127,4 @@ function CreatePost() {
   )
 }
 
-export default CreatePost
+export default EditPost

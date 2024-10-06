@@ -22,7 +22,8 @@ const {
     createPost,
     posts,
     singlePost,
-    deletePost
+    deletePost,
+    editPost
 
 } = require("../controllers/users");
 
@@ -32,10 +33,8 @@ router.route("/register").post(register)
 router.route("/login").post(login)
 router.route("/logout").post(logout)
 router.route("/profile").get(profile)
-router.route("/post").get(posts)
+router.route("/post").get(posts).delete(deletePost)
 router.route("/post/:id").get(singlePost)
-router.route("/delete").delete(deletePost)
 router.post("/createPost",uploadMiddleware.single('file'),createPost)
-
-
+router.put("/post",uploadMiddleware.single('file'),editPost)
 module.exports = router

@@ -14,6 +14,7 @@ const register = async (req, res, next) => {
 }
 
 const login =  async (req, res, next) => {
+
     const { username, password } = req.body;
 
     if (!username || !password) {
@@ -34,7 +35,7 @@ const login =  async (req, res, next) => {
         const token = jwt.sign({ username, id: user._id }, process.env.JWT_SECRET);
         res
         .status(200)
-        .cookie("token", token, { httpOnly: true,sameSite:"lax",secure:false })
+        .cookie("token", token, { httpOnly: true,sameSite:"lax", })
         .json({ message: "Login successful" });
     } catch (error) {
       next(error); // Pass the error to the error-handling middleware
@@ -57,6 +58,7 @@ const profile = async (req, res, next) => {
 }
  
 const logout =  (req, res) => {
+
     res.cookie("token", "", { httpOnly: true }).json({ message: "Logged out successfully" });
 }
 
@@ -94,14 +96,48 @@ const singlePost =  async (req, res, next) => {
     }
 }
 
+const editPost = async (req,res,next)=>{
+    
+    const {token} = req.cookies
+    const{id,title,summary,content,cover} = req.body
+    const { filename } = req.file;
+    try {
+        const postDoc =  await Post.findById(id)
+        const data = await jwt.verify(token,process.env.JWT_SECRET)
+        const isAuthor = postDoc.author == data.id
+        if(!isAuthor){
+            return next(new BadRequest("You Can't Modify This Post"))
+        }
+    await postDoc.updateOne({
+        title,
+        summary,
+        content,
+        cover:filename
+        
+    })
+        res.json(postDoc)
+    } catch (error) {
+        next(error)
+    }
+}
+
 const deletePost =async(req,res,next)=>{
 
     const {id} = req.body
-    console.log(id);
-    
+    const {token} = req.cookies
     try {
-        const post = await Post.findByIdAndDelete(id)
-        res.json("deleted successfully ...")
+
+        // const post = await Post.findByIdAndDelete(id)
+        const authorId = await Post.findById(id)
+        const data = await jwt.verify(token,process.env.JWT_SECRET)
+        const isAuthor = authorId.author === data.id
+        if(!isAuthor){
+            next(new BadRequest("You Can't Delete This Post"))
+        }        
+        
+        await Post.deleteOne(_id ==authorId._id)
+        
+
     } catch (error) {
         next(error)
     }
@@ -140,5 +176,6 @@ module.exports = {
     createPost,
     posts,
     singlePost,
-    deletePost
+    deletePost,
+    editPost
 }

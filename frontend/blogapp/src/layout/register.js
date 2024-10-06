@@ -30,7 +30,7 @@ function Register() {
                     return;
                 } else {
                     setRegister(false);
-                    alert("Username should be different");
+                    alert(res.json().error);
                 }
             } catch (error) {
                 alert("Registration failed, please try again");
