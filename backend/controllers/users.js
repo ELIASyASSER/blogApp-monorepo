@@ -115,7 +115,7 @@ const editPost = async (req,res,next)=>{
         cover:filename
         
     })
-        res.json(postDoc)
+        res.status(200).json(postDoc)
     } catch (error) {
         next(error)
     }
@@ -123,19 +123,25 @@ const editPost = async (req,res,next)=>{
 
 const deletePost =async(req,res,next)=>{
 
-    const {id} = req.body
+    const {id} = req.params
     const {token} = req.cookies
     try {
 
         // const post = await Post.findByIdAndDelete(id)
-        const authorId = await Post.findById(id)
-        const data = await jwt.verify(token,process.env.JWT_SECRET)
-        const isAuthor = authorId.author === data.id
-        if(!isAuthor){
-            next(new BadRequest("You Can't Delete This Post"))
-        }        
+        const postDoc = await Post.findById(id)
+        if(!postDoc){
+            return next(new BadRequest("Post Not Found"))
         
-        await Post.deleteOne(_id ==authorId._id)
+        }
+        const data = await jwt.verify(token,process.env.JWT_SECRET)
+        
+        const isAuthor = postDoc.author.equals(data.id) 
+        if(!isAuthor){    
+
+            return next(new BadRequest("You Can't Delete This Post"))
+        }        
+            await Post.deleteOne({_id :postDoc._id})
+            res.status(200).json({message:"Post Deleted Successfuly"})
         
 
     } catch (error) {
@@ -164,8 +170,8 @@ const createPost =  async (req, res, next) => {
         res.json(post);
     } catch (error) {
       next(error); // Pass the error to the error-handling middleware
-    }
-}
+    } 
+} 
 
 
 module.exports = {
