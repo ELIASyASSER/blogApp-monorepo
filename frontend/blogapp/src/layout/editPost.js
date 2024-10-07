@@ -56,8 +56,12 @@ function EditPost() {
     if (res.ok){
         setRedirect(true)
     }
-    const info = await res.json()
-    alert(info.error)
+    else{
+      const info = await res.json()
+      alert(info.error ==='jwt must be provided'?"please enter your information":info.error);
+
+    }
+
 
 
     // const res = await fetch("http://localhost:4000/editPost",{

@@ -20,7 +20,7 @@ function Post({ _id, title, summary, cover, createdAt, author }) {
       </div>
       <div className='p-6'>
         <Link to={`/post/${_id}`}>
-          <h2 className='text-3xl font-bold mb-3 text-gray-900 hover:text-blue-600 transition-colors duration-300'>
+          <h2 className='text-3xl truncate font-bold mb-3 text-gray-900 hover:text-blue-600 transition-colors duration-300'>
             {title}
           </h2>
         </Link>
