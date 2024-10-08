@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import {useUser} from '../context'
 function Header() {
     const {isLoading,user,logoutUser} = useUser()
-  
+    console.log(user);
+    
   return (
     <header className="bg-sky-50 flex justify-between items-center px-8 py-4 shadow-lg">
       {/* Logo */}
@@ -19,7 +20,7 @@ function Header() {
         {isLoading?<span>Loading ....</span>:user?.username?
           
           <>
-
+        <span>Welcome , {user.username}</span>
         <Link
           to="/createPost"
           className="text-cyan-600 font-semibold hover:text-cyan-800 transition duration-300"

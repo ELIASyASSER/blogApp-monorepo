@@ -8,25 +8,23 @@ const Modal = () => {
   const navigate= useNavigate()
   
   const {id} = useParams()
+
   async function handleDelete() {
     
-    const resp = await fetch("http://localhost:4000/post",{
+    const resp = await fetch(`http://localhost:4000/post/${id}`,{
       method:"DELETE",
       credentials:"include",
-      body:JSON.stringify({id:id}),
       headers:{"Content-Type":"application/json"}
     })
-    if(resp.ok){
-    navigate("/")  
-    }
+    if(!resp.ok){
       const data = await resp.json()
-      alert(data.error);
-      
-      
+      alert(data.error =='jwt must be provided'?"please enter your information":data.error);
+      setModalOpen(false)
+      navigate('/')
+    }
+    navigate("/")  
+    setModalOpen(false)
 
-
-
-    
   }
 
 

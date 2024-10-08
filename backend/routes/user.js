@@ -26,15 +26,16 @@ const {
     editPost
 
 } = require("../controllers/users");
+const authMiddleware = require("../middleware/auth");
 
 const router = express.Router()
 
 router.route("/register").post(register)
 router.route("/login").post(login)
 router.route("/logout").post(logout)
-router.route("/profile").get(profile)
-router.route("/post").get(posts).delete(deletePost)
-router.route("/post/:id").get(singlePost)
-router.post("/createPost",uploadMiddleware.single('file'),createPost)
-router.put("/post",uploadMiddleware.single('file'),editPost)
+router.route("/profile").get(authMiddleware,profile)
+router.route("/post").get(posts)
+router.route("/post/:id").get(singlePost).delete(authMiddleware,deletePost)
+router.post("/createPost",authMiddleware,uploadMiddleware.single('file'),createPost)
+router.put("/post",authMiddleware,uploadMiddleware.single('file'),editPost)
 module.exports = router
