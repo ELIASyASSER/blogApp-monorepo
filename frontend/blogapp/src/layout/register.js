@@ -25,12 +25,13 @@ function Register() {
                     body: JSON.stringify({ username, password }),
                     headers: { 'Content-Type': 'application/json' }
                 });
+                const data =await res.json()
                 if (res.status === 200) {
                     setRegister(true);
-                    return;
                 } else {
                     setRegister(false);
-                    alert(res.json().error);
+                alert("Registration failed, please try another information");
+                    
                 }
             } catch (error) {
                 alert("Registration failed, please try again");

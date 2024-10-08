@@ -93,8 +93,8 @@ function EditPost() {
       {/* Summary Input */}
       <textarea
         required
-        placeholder='Enter the summary (min 10 characters)'
-        minLength="10"
+        placeholder='Enter the summary (min 150 characters)'
+        minLength="150"
         value={summary}
         onChange={(e) => setSummary(e.target.value)}
         className='w-full px-4 py-2 border rounded-lg overflow-hidden min-h-min focus:outline-none focus:ring-2 focus:ring-blue-400 resize-none '

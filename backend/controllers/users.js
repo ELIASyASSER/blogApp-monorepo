@@ -43,15 +43,9 @@ const login =  async (req, res, next) => {
 }
 
 const profile = async (req, res, next) => {
-    const { token } = req.cookies;
-
-    if (!token) {
-        return next(new unAuthenticated("No token provided"));
-    }
     
     try {
-        const tokenInfo = await jwt.verify(token, process.env.JWT_SECRET);
-        res.status(200).json(tokenInfo);
+        res.status(200).json(req.info);
     } catch (error) {
         next(new unAuthenticated("Invalid token"));
     }
@@ -67,7 +61,6 @@ const posts =  async (req, res, next) => {
     const posts = await Post.find({})
         .populate("author", ["username"])
         .sort({ createdAt: -1 })
-        .limit(20);
         
         res.json(
             posts.map((post) => ({
@@ -98,13 +91,11 @@ const singlePost =  async (req, res, next) => {
 
 const editPost = async (req,res,next)=>{
     
-    const {token} = req.cookies
     const{id,title,summary,content,cover} = req.body
     const { filename } = req.file;
     try {
         const postDoc =  await Post.findById(id)
-        const data = await jwt.verify(token,process.env.JWT_SECRET)
-        const isAuthor = postDoc.author == data.id
+        const isAuthor = postDoc.author == req.info.id
         if(!isAuthor){
             return next(new BadRequest("You Can't Modify This Post"))
         }
@@ -124,19 +115,17 @@ const editPost = async (req,res,next)=>{
 const deletePost =async(req,res,next)=>{
 
     const {id} = req.params
-    const {token} = req.cookies
     try {
-
         // const post = await Post.findByIdAndDelete(id)
         const postDoc = await Post.findById(id)
         if(!postDoc){
             return next(new BadRequest("Post Not Found"))
         
         }
-        const data = await jwt.verify(token,process.env.JWT_SECRET)
+        const isAuthor = postDoc.author.equals(req.info.id) 
         
-        const isAuthor = postDoc.author.equals(data.id) 
-        if(!isAuthor){    
+        if(!isAuthor){
+            
 
             return next(new BadRequest("You Can't Delete This Post"))
         }        
@@ -153,19 +142,13 @@ const createPost =  async (req, res, next) => {
     const { filename } = req.file;
     
     const { title, summary, content } = req.body;
-    const { token } = req.cookies;
-    if (!token) {
-        return next(new unAuthenticated("No token provided"));
-    }
-
     try {
-    const tokenInfo = await jwt.verify(token, process.env.JWT_SECRET);
     const post = await Post.create({
             title,
             summary,
             content,
             cover: filename,
-            author: tokenInfo.id,
+            author: req.info.id,
         });
         res.json(post);
     } catch (error) {
