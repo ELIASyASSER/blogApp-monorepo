@@ -35,8 +35,24 @@ function CreatePost() {
         credentials:"include",
         body:data
     })
+    
     if(res.ok){
-      setRedirect(true)
+    const handleQuill = (value)=>{
+
+      const textContent = value.replace(/<[^>]+>/g, ''); 
+      if(textContent.length <= 500){
+        setRedirect(false)
+        alert(`Content must be at least 500 characters. Current length: ${textContent.length}`)
+        
+        
+      }
+      else{
+        setContent(value)
+        setRedirect(true)
+        
+      }
+    }
+      handleQuill(content)
     }
   }
   if(redirect){
@@ -76,11 +92,13 @@ function CreatePost() {
       />
       
       {/* React Quill Editor */}
+      
       <ReactQuill
         required
         modules={modules}
         formats={formats}
         value={content}
+        
         onChange={(newValue) => setContent(newValue)}
         className='w-full h-64 mb-10  overflow-auto '
       />

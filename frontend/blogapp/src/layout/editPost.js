@@ -54,7 +54,21 @@ function EditPost() {
         credentials:"include"
     })
     if (res.ok){
-        setRedirect(true)
+      const handleQuill = (value)=>{
+
+        const textContent = value.replace(/<[^>]+>/g, ''); 
+        if(textContent.length <= 500){
+          setRedirect(false)
+          alert(`Content must be at least 500 characters. Current length: ${textContent.length}`)
+          
+        }
+        else{
+          setContent(value)
+          setRedirect(true)
+          
+        }
+      }
+        handleQuill(content)
     }
     else{
       const info = await res.json()
@@ -62,16 +76,6 @@ function EditPost() {
 
     }
 
-
-
-    // const res = await fetch("http://localhost:4000/editPost",{
-    //     method:"Put",
-    //     credentials:"include",
-    //     body:data
-    // })
-    // if(res.ok){
-    //   setRedirect(true)
-    // }
   }
   if(redirect){
     return <Navigate to={'/'}/>
