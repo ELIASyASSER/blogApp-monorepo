@@ -6,7 +6,7 @@ function Header() {
     console.log(user);
     
   return (
-    <header className="bg-sky-50 flex justify-between items-center px-8 py-4 shadow-lg">
+    <header className="bg-sky-50 flex justify-between items-center px-8 py-4 shadow-lg sticky top-0 z-30">
       {/* Logo */}
       <Link
         className="font-mono text-cyan-600 text-4xl font-bold tracking-wide hover:text-cyan-800 transition duration-300"
