@@ -17,6 +17,9 @@ const authMiddleware = async(req,res,next)=>{
         next()
         
     } catch (error) {
+        if(error instanceof jwt.TokenExpiredError){
+            return next (new unAuthenticated("Your Token Has Expired "))
+        }
         next(error)
     }
     
