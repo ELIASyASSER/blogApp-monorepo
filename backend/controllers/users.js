@@ -4,6 +4,7 @@ const Post = require("../models/posts")
 const  BadRequest= require("../errors/unauthenticated")
 const  unAuthenticated= require("../errors/unauthenticated")
 const register = async (req, res, next) => {
+
     const { username, password } = req.body;
     try {
         const userData = await User.create({ username, password });
@@ -12,11 +13,11 @@ const register = async (req, res, next) => {
       next(error); // Pass the error to the error-handling middleware
     }
 }
-
+ 
 const login =  async (req, res, next) => {
-
+ 
     const { username, password } = req.body;
-
+ 
     if (!username || !password) {
         return next(new BadRequest("Missing credentials"));
     }
@@ -30,7 +31,7 @@ const login =  async (req, res, next) => {
         const pass = await user.comparePassword(password);
         if (!pass) {
         return next(new unAuthenticated("Invalid Password"));
-        }
+        }   
 
         const token = jwt.sign({ username, id: user._id }, process.env.JWT_SECRET);
         res
@@ -39,8 +40,8 @@ const login =  async (req, res, next) => {
         .json({ message: "Login successful" });
     } catch (error) {
       next(error); // Pass the error to the error-handling middleware
-    }
-}
+    } 
+}   
 
 const profile = async (req, res, next) => {
     
@@ -138,11 +139,12 @@ const deletePost =async(req,res,next)=>{
     }
 }
 
-const createPost =  async (req, res, next) => {
+const createPost =  async (req,res,next) => {
     const { filename } = req.file;
-    
     const { title, summary, content } = req.body;
+    
     try {
+
     const post = await Post.create({
             title,
             summary,
@@ -150,9 +152,13 @@ const createPost =  async (req, res, next) => {
             cover: filename,
             author: req.info.id,
         });
+        
         res.json(post);
+    
     } catch (error) {
-      next(error); // Pass the error to the error-handling middleware
+    
+        next(error); // Pass the error to the error-handling middleware
+    
     } 
 } 
 

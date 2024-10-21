@@ -1,65 +1,60 @@
-import React,{ useContext, createContext,useState } from 'react' 
+import React,{ useContext, createContext,useState, useEffect, useCallback } from 'react' 
 
-import Link from 'react-router-dom'
 
-export const UserContext = createContext({
-
-    isLoading:true,
-    user:null,
-    refetchUser:()=>null,
-    logoutUser:()=>null
-})
+export const UserContext = createContext({})
 
 export const AppProvider =({children})=>{
-    const [value,setValue] = useState({isLoading:false,user:null})
+
+    const [loading,setLoading] = useState(false)
     const [modalOpen,setModalOpen] = useState(false)
-    const refetchUser = React.useCallback(()=>{
+
+
+    const profileUser =  ()=>{
         //call /profile endpoint to get user data
-        setValue({isLoading:true,user:null})
+        setLoading(true)
+
         fetch("http://localhost:4000/profile", {
             credentials: "include",
-          }).then(res=>{
+        }).then(res=>{
             if(res.ok){
                 return res.json()
             }
-            throw new Error("Response network is not ok")
-          })
-          .then((info)=>setValue({isLoading:false,user:info}))
-          .catch(err=>{
+            alert("something went wrong please try again later")
+        })
+        .then((info)=>{
+            setLoading(false)
+            localStorage.setItem("user",JSON.stringify(info))
+        })
+        .catch(err=>{
+
             console.log("something went wrong while fetching the user",err)
-            setValue({isLoading:false,user:null})
-            
-          })
+            alert("something went wrong please try again later ...")
+            localStorage.removeItem("user")
+            setLoading(false)
+        })
 
         
-    },[])
-    
+    }
 
-    const logoutUser = React.useCallback(()=>{
+    const logoutUser = ()=>{
         // call the /logout endpoint 
+            setLoading(true)
             fetch("http://localhost:4000/logout", {
                 credentials: "include",
                 method: "POST",
-            }).then(
-                setValue({isLoading:false,user:null})
+            }).then(()=>{
+                setLoading(false)
+                localStorage.removeItem("user")
+
+            }
             );
             
-    },[])
+    }
 
-    const contextValue = React.useMemo(()=>{
-        return{
-            ...value,
-            refetchUser,
-            logoutUser,
-            modalOpen,
-            setModalOpen
-        }
-
-    },[value,refetchUser,logoutUser,modalOpen,setModalOpen])
 
 
     return(
-        <UserContext.Provider value={contextValue} >
+        <UserContext.Provider value={{profileUser,logoutUser,modalOpen,setModalOpen,loading,setLoading}} >
                 {children}
         </UserContext.Provider>
     ) 

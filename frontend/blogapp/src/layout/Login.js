@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useUser } from '../context';
 function Login() {
-  const  {refetchUser} = useUser()
+  const  {profileUser} = useUser()
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
@@ -16,7 +16,7 @@ function Login() {
       credentials: "include",
     });
     if (res.ok) {
-      refetchUser()
+      profileUser()
       setRedirect(true);
     } else {
       alert("Wrong Credentials");
@@ -36,6 +36,7 @@ function Login() {
         <h1 className="text-2xl font-bold text-center mb-6">Log In</h1>
         <form className="space-y-4" onSubmit={login}>
           <div>
+            
             <input
               type="text"
               placeholder="Username"
@@ -43,7 +44,9 @@ function Login() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
+
           </div>
+          
           <div>
             <input
               type="password"

@@ -2,9 +2,14 @@ import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {useUser} from '../context'
 function Header() {
-    const {isLoading,user,logoutUser} = useUser()
-    console.log(user);
+    const {loading,logoutUser,profileUser} = useUser()
+  useEffect(()=>{
+    if(!logoutUser){
+      profileUser()
+    }
     
+  },[logoutUser])
+  const user = JSON.parse(localStorage.getItem("user"))
   return (
     <header className="bg-sky-50 flex justify-between items-center px-8 py-4 shadow-lg sticky top-0 z-30">
       {/* Logo */}
@@ -17,7 +22,7 @@ function Header() {
 
       <nav className="flex items-center space-x-6">
         {/* Conditionally render based on user authentication status */}
-        {isLoading?<span>Loading ....</span>:user?.username?
+        {loading?<span>Loading ....</span>:user?.username?
           
           <>
         <span>Welcome , {user.username}</span>

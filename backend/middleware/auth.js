@@ -6,7 +6,7 @@ const authMiddleware = async(req,res,next)=>{
         return next(new unAuthenticated("No Token Provided"))
     }
 
-    try {
+    try{
         const data =  jwt.verify(token,process.env.JWT_SECRET)
         
         if(!data){
@@ -16,10 +16,11 @@ const authMiddleware = async(req,res,next)=>{
         req.info = data
         next()
         
-    } catch (error) {
+    }catch (error) {
         if(error instanceof jwt.TokenExpiredError){
             return next (new unAuthenticated("Your Token Has Expired "))
         }
+        
         next(error)
     }
     

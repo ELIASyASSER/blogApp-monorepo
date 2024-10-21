@@ -19,11 +19,11 @@ app.use(xss())
 app.use(helmet())
 app.use(rateLimiter({
   windowMs:10*60*1000,
-  max:800
+  max:8000
 }))
 
 app.use(router)
-
+ 
 // Error Handling Middleware
 app.use(errorHandlerMiddleware);
 

@@ -38,4 +38,4 @@ router.route("/post").get(posts)
 router.route("/post/:id").get(singlePost).delete(authMiddleware,deletePost)
 router.post("/createPost",authMiddleware,uploadMiddleware.single('file'),createPost)
 router.put("/post",authMiddleware,uploadMiddleware.single('file'),editPost)
-module.exports = router
+module.exports = router 
