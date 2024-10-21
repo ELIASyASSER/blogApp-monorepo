@@ -23,7 +23,10 @@ app.use(rateLimiter({
 }))
 
 app.use(router)
- 
+app.get("/isLogged",(req,res)=>{
+  const logged  = req.cookies.token?true:false
+  res.status(200).json({logged})
+}) 
 // Error Handling Middleware
 app.use(errorHandlerMiddleware);
 

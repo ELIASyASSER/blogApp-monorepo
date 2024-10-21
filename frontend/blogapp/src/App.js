@@ -8,6 +8,7 @@ import Register from './layout/register';
 import CreatePost from './createPost';
 import PostPage from './layout/PostPage';
 import EditPost from './layout/editPost';
+import ProtectedRoutes from './protectedRoute';
 
 function App() {
   return (
@@ -17,9 +18,13 @@ function App() {
           < Route index element={<Home/>}/>      
           < Route path='/login' element={<Login />}/>
           < Route path='/register' element={<Register />}/>
-          < Route path='/createPost' element={<CreatePost />}/>
-          <Route path='/post/:id' element={<PostPage/>}/>
-          <Route path='/editPost/:id' element={<EditPost/>}/>
+          <Route element={<ProtectedRoutes/>}>
+              < Route path='/createPost' element={<CreatePost />}/>
+              <Route path='/post/:id' element={<PostPage/>}/>
+              <Route path='/editPost/:id' element={<EditPost/>}/>
+          
+          </Route>
+
         </Route>
       </Routes>
     </Router>

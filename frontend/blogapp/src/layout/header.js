@@ -2,6 +2,10 @@ import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {useUser} from '../context'
 function Header() {
+
+
+  
+  
     const {loading,logoutUser,profileUser} = useUser()
   useEffect(()=>{
     if(!logoutUser){
