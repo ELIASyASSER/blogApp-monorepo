@@ -8,14 +8,14 @@ function Post({ _id, title, summary, cover, createdAt, author }) {
 
   return (
 <>
-  <div className='img '>
-        <Link to={`/post/${_id}` } className='relative '>
+  <div className='img'>
+        <Link to={`/post/${_id}` } className='relative overflow-hidden'>
           <img
-            className='w-full h-64 object-cover transition-opacity duration-300 hover:opacity-90 '
+            className='w-full h-64 object-cover transition-opacity duration-300 hover:opacity-90  '
             src={`http://localhost:4000${cover}`}
             alt='Post Cover'
           />
-          <FaEye className='absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-[rgba(0,0,0,0.5)] text-white  hover:text-blue-500 transition-all z-20 w-1/2 h-1/4 p-2 m-auto rounded-lg'/>
+          <FaEye className='eye bg-[rgba(0,0,0,0.5)] text-white  hover:text-blue-500  m-auto rounded-lg ' />
         </Link>
       </div>
       <div className='p-6'>

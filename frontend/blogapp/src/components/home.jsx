@@ -14,17 +14,16 @@ function Home() {
   
 
   return (
-    <div className=' grid md:grid-cols-2  gap-5 '>
-    
+    <main className='grid md:grid-cols-2  gap-5 overflow-hidden '>
     {posts.length >0 && posts.map((post,idx)=>{
       return(
         
-        <div key={idx} className='post bg-white rounded-lg shadow-lg overflow-hidden mb-8 transition-transform container m-4  md:w-[45vw]'>
+        <div key={idx} className='post bg-white rounded-lg shadow-lg  mb-8 transition-transform container m-4 mx-auto  md:w-[45vw] overflow-hidden'>
           <Post {...post} />
         </div>
       ) 
     })}
-    </div>
+    </main>
   )
 }
 

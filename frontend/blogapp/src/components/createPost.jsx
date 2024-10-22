@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
-import './index.css'
 import { Navigate } from 'react-router-dom'
+
 function CreatePost() {
+    
     const [redirect,setRedirect] = useState(false)
     const [title,setTitle] = useState("")
     const [summary,setSummary] = useState("")
     const [content,setContent] = useState("")
     const [file,setFile] = useState("")
 
-   const modules= {toolbar: [
+    const modules= {toolbar: [
         [{ 'header': [1, 2, false] }],
         ['bold', 'italic', 'underline', 'strike', 'blockquote'],
         [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'indent': '-1'}, { 'indent': '+1' }],
@@ -60,8 +61,7 @@ function CreatePost() {
   }
 
     return (
-  
-      <form className='form-container m-8 bg-white p-3 overflow-hidden shadow-md  rounded-lg p-6 space-y-6 min-h-min' onSubmit={newPost}>
+    <form className='form-container m-8 bg-white p-3 overflow-hidden shadow-md  rounded-lg p-6 space-y-6 min-h-min' onSubmit={newPost}>
       {/* Title Input */}
       <input
         type='text'

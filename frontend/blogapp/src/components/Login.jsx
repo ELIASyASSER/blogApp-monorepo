@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Navigate } from 'react-router-dom';
-import { useUser } from '../context';
+import { Link, Navigate } from 'react-router-dom';
+import { useUser } from '../context/context';
 function Login() {
   const  {profileUser} = useUser()
   const [username, setUsername] = useState("");
@@ -63,6 +63,8 @@ function Login() {
             Log In
           </button>
         </form>
+        <Link to={'/register'} className='mt-6 block text-md text-blue-500 underline'>Don't Have Account Sign Up Now</Link>
+
       </div>
     </div>
   );

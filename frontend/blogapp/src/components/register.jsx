@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate ,Link} from 'react-router-dom';
 
 function Register() {
     const [error, setError] = useState(false);
@@ -49,7 +49,6 @@ function Register() {
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
             <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
                 <h1 className="text-2xl font-bold text-center mb-6">Register</h1>
-
                 <form className="space-y-4" onSubmit={registeration}>
                     <div>
                         <input
@@ -75,6 +74,7 @@ function Register() {
                         Register
                     </button>
                 </form>
+                <Link to={'/login'} className='mt-6 block text-md text-blue-500 underline'>Have Account  LogIn Now</Link>
             </div>
         </div>
     );

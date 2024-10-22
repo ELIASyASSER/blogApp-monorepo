@@ -5,6 +5,7 @@ const ProtectedRoutes = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(null); // null: loading, true: logged in, false: not logged in
 
   useEffect(() => {
+    
     const checkLoginStatus = async () => {
       try {
         const resp = await fetch("http://localhost:4000/isLogged", {
@@ -27,6 +28,7 @@ const ProtectedRoutes = () => {
   if (isLoggedIn === null) {
     return <div>Loading...</div>; // You can replace this with a proper loading spinner or message
   }
+  
 
   // If the user is logged in, render the protected routes; otherwise, redirect to login
   if (isLoggedIn) {

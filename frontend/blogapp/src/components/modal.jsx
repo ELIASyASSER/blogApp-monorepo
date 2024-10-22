@@ -1,6 +1,6 @@
 // Modal.js
 import React from 'react';
-import { useUser} from "../context";
+import { useUser} from "../context/context";
 import { FaTimes } from 'react-icons/fa';
 import {useNavigate, useParams}from "react-router-dom"
 const Modal = () => {
