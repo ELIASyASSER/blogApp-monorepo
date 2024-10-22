@@ -36,14 +36,16 @@ const login =  async (req, res, next) => {
         const token = jwt.sign({ username, id: user._id }, process.env.JWT_SECRET);
         res
         .status(200)
-        .cookie("token", token, { httpOnly: true,sameSite:"lax", })
+        .cookie("token", token, { httpOnly: true,sameSite:"lax"})
         .json({ message: "Login successful" });
     } catch (error) {
       next(error); // Pass the error to the error-handling middleware
     } 
+
 }   
 
 const profile = async (req, res, next) => {
+    
     
     try {
         res.status(200).json(req.info);
@@ -58,6 +60,7 @@ const logout =  (req, res) => {
 }
 
 const posts =  async (req, res, next) => {
+
     try {
     const posts = await Post.find({})
         .populate("author", ["username"])
@@ -75,6 +78,7 @@ const posts =  async (req, res, next) => {
     }
 
 const singlePost =  async (req, res, next) => {
+
     const { id } = req.params;
     try {
         const post = await Post.findById(id).populate("author", ["username"]);
@@ -111,7 +115,9 @@ const editPost = async (req,res,next)=>{
     } catch (error) {
         next(error)
     }
+
 }
+
 
 const deletePost =async(req,res,next)=>{
 

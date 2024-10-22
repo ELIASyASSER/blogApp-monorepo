@@ -1,4 +1,4 @@
-import React,{ useContext, createContext,useState, useEffect, useCallback } from 'react' 
+import React,{ useContext, createContext,useState } from 'react' 
 
 
 export const UserContext = createContext({})
@@ -46,8 +46,7 @@ export const AppProvider =({children})=>{
                 setLoading(false)
                 localStorage.removeItem("user")
 
-            }
-            );
+            });
             
     }
 

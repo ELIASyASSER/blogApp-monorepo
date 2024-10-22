@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import {FaPen, FaTrash,} from 'react-icons/fa'
-import { useUser } from '../context';
+import { useUser } from '../context/context';
 import Modal from './modal';
 function PostPage() {
   const {modalOpen,setModalOpen} = useUser()
