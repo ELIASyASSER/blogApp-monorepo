@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import { Navigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
 
 function CreatePost() {
     
@@ -43,14 +44,24 @@ function CreatePost() {
       const textContent = value.replace(/<[^>]+>/g, ''); 
       if(textContent.length <= 500){
         setRedirect(false)
-        alert(`Content must be at least 500 characters. Current length: ${textContent.length}`)
+        Swal.fire({
+          title: "Content Error",
+          text: `Content must be at least 500 characters. Current length: ${textContent.length}`,
+          icon: "question"
+        });
         
         
       }
       else{
         setContent(value)
         setRedirect(true)
-        
+        Swal.fire({
+          position: "top-center",
+          icon: "success",
+          title: "Post Created Successfully",
+          showConfirmButton: false,
+          timer: 2000
+        });
       }
     }
       handleQuill(content)

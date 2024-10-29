@@ -2,8 +2,10 @@ import React, { useState } from 'react'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import { Navigate ,useParams} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import Swal from 'sweetalert2'
 function EditPost() {
-    
+    const navigate = useNavigate()
     const {id} = useParams()
     const [redirect,setRedirect] = useState(false)
     const [title,setTitle] = useState("")
@@ -63,21 +65,37 @@ function EditPost() {
         const textContent = value.replace(/<[^>]+>/g, ''); 
         if(textContent.length <= 500){
           setRedirect(false)
-          alert(`Content must be at least 500 characters. Current length: ${textContent.length}`)
+          Swal.fire({
+            title: "Content Error",
+            text: `Content must be at least 500 characters. Current length: ${textContent.length}`,
+            icon: "question"
+          });
           
         }
         else{
           setContent(value)
           setRedirect(true)
-          
+          Swal.fire({
+            position: "top-center",
+            icon: "success",
+            title: "Post Edited Successfully",
+            showConfirmButton: false,
+            timer: 2000
+          });
         }
       }
         handleQuill(content)
     }
     else{
       const info = await res.json()
-      alert(info.error ==='jwt must be provided'?"please enter your information":info.error);
+      
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: info.error ==='jwt must be provided'?"please enter your information":info.error,
 
+      });
+      navigate("/")
     }
 
   }

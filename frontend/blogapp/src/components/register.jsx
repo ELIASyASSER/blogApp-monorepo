@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Navigate ,Link} from 'react-router-dom';
-
+import Swal from 'sweetalert2';
 function Register() {
     const [error, setError] = useState(false);
     const [register, setRegister] = useState(false);
@@ -11,10 +11,18 @@ function Register() {
         e.preventDefault();
         if (userRef.current.value.length <= 4) {
             setError(true);
-            alert("Username must be more than 4 characters");
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Username must be more than 4 characters",
+            });
         } else if (passwordRef.current.value.length <= 4) {
             setError(true);
-            alert("Password must be more than 4 characters");
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Password must be more than 4 characters",
+            });
         } else {
             setError(false);
             const username = userRef.current.value;
@@ -30,11 +38,20 @@ function Register() {
                     setRegister(true);
                 } else {
                     setRegister(false);
-                alert("Registration failed, please try another information");
-                    
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Registration failed, please try another information",
+                });
                 }
+
             } catch (error) {
-                alert("Registration failed, please try again");
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Registration failed, please try again",
+                });
+                
             }
         }
     };

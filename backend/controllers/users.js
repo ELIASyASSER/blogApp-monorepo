@@ -65,12 +65,13 @@ const posts =  async (req, res, next) => {
     const posts = await Post.find({})
         .populate("author", ["username"])
         .sort({ createdAt: -1 })
-        
+
         res.json(
             posts.map((post) => ({
                 ...post.toJSON(),
                 cover: `/uploads/${post.cover}`
             }))
+
         );
     } catch (error) {
       next(error); // Pass the error to the error-handling middleware
@@ -80,7 +81,7 @@ const posts =  async (req, res, next) => {
 const singlePost =  async (req, res, next) => {
 
     const { id } = req.params;
-    try {
+    try {  
         const post = await Post.findById(id).populate("author", ["username"]);
         if (!post) {
             return next(new BadRequest("Post not found"));

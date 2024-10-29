@@ -3,6 +3,7 @@ import React from 'react';
 import { useUser} from "../context/context";
 import { FaTimes } from 'react-icons/fa';
 import {useNavigate, useParams}from "react-router-dom"
+import Swal from 'sweetalert2';
 const Modal = () => {
   const {setModalOpen} = useUser()
   const navigate= useNavigate()
@@ -18,10 +19,23 @@ const Modal = () => {
     })
     if(!resp.ok){
       const data = await resp.json()
-      alert(data.error =='jwt must be provided'?"please enter your information":data.error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: data.error ==='jwt must be provided'?"please enter your information":data.error,
+
+      });
       setModalOpen(false)
       navigate('/')
     }
+    Swal.fire({
+      position: "top-center",
+      icon: "success",
+      title: "Post Deleted Successfully",
+      showConfirmButton: false,
+      timer: 2000
+    });
+    
     navigate("/")  
     setModalOpen(false)
 

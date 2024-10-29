@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useUser } from '../context/context';
+import Swal from 'sweetalert2'
 function Login() {
   const  {profileUser} = useUser()
   const [username, setUsername] = useState("");
@@ -19,14 +20,26 @@ function Login() {
       profileUser()
       setRedirect(true);
     } else {
-      alert("Wrong Credentials");
+      Swal.fire({
+        position: "top-center",
+        icon: "error",
+        title: "Wrong Information",
+        showConfirmButton: false,
+        timer: 200
+      });
     }
   
   
   };
 
   if (redirect) {
-    
+    Swal.fire({
+      position: "top-center",
+      icon: "success",
+      title: "Logged In Successfully",
+      showConfirmButton: false,
+      timer: 3500
+    });
     return <Navigate to={'/'} />;
   }
 
@@ -58,7 +71,7 @@ function Login() {
           </div>
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-600 transition duration-300"
+            className="w-full bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-800 transition duration-300"
           >
             Log In
           </button>
