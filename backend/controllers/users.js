@@ -53,7 +53,7 @@ const profile = async (req, res, next) => {
         next(new unAuthenticated("Invalid token"));
     }
 }
- 
+
 const logout =  (req, res) => {
 
     res.cookie("token", "", { httpOnly: true }).json({ message: "Logged out successfully" });
@@ -133,10 +133,8 @@ const deletePost =async(req,res,next)=>{
         const isAuthor = postDoc.author.equals(req.info.id) 
         
         if(!isAuthor){
-            
-
             return next(new BadRequest("You Can't Delete This Post"))
-        }        
+        }      
             await Post.deleteOne({_id :postDoc._id})
             res.status(200).json({message:"Post Deleted Successfuly"})
         

@@ -13,7 +13,7 @@ const errorHandlerMiddleware = require("./middleware/errorhandler");
 // Middlewares
 app.use(express.json());
 app.use("/uploads", express.static(__dirname + "/uploads"));
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(cors({ credentials: true, origin: ["http://localhost:3000","https://bloggy-henna.vercel.app/"]}));
 app.use(cookieParser());
 app.use(xss())
 app.use(helmet())
