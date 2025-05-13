@@ -1,0 +1,39 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components{
+
+    .eye{
+        @apply w-full;
+        @apply h-2/3;
+        
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: -100%;
+        transition: 0.6s;
+        z-index: 22;
+        
+    }
+    .img:hover .eye{
+        left: 50%;
+        top: 34%;
+        transform: translate(-50%,-50%);
+
+
+    }
+    
+}
+
+@layer base {
+    /* This is the default reset included by Tailwind */
+    * {
+        box-sizing: border-box;
+    }
+    body {
+        margin: 0;
+        padding: 0;
+    }
+}
