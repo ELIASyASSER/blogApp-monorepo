@@ -10,12 +10,6 @@ import "react-quill-new/dist/quill.snow.css"
 // Dynamically import ReactQuill with SSR set to false
 
 
-
-export const metadata = {
-  
-  title: "edit post page",
-  description: "you can edit your post in this page ",
-};
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 function EditPost() {
   
