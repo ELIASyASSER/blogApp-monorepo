@@ -5,6 +5,7 @@ import Image from 'next/image';
 function Post({ _id, title, summary, cover, createdAt, author }) {
   const time = new Date(createdAt).toDateString();
 
+  console.log(cover)
   return (
     <>
       <div className='img'>
