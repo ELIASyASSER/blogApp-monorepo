@@ -3,16 +3,27 @@ const User = require("../models/user")
 const Post = require("../models/posts")
 const  BadRequest= require("../errors/unauthenticated")
 const  unAuthenticated= require("../errors/unauthenticated")
-const register = async (req, res, next) => {
 
-    const { username, password } = req.body;
-    try {
-        const userData = await User.create({ username, password });
-        res.json({ data: userData });
-    } catch (error) {
-      next(error); // Pass the error to the error-handling middleware
+const register = async (req, res, next) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return next(new BadRequest("Username and password are required"));
+  }
+
+  try {
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      return next(new BadRequest("Username already taken"));
     }
-}
+
+    const userData = await User.create({ username, password });
+    res.status(201).json({ data: userData });
+  } catch (error) {
+    next(error); // Pass to error middleware
+  }
+};
+
  
 const login =  async (req, res, next) => {
  
@@ -59,6 +70,10 @@ const logout =  (req, res) => {
     res.cookie("token", "", { httpOnly: true }).json({ message: "Logged out successfully" });
 }
 
+
+
+
+
 const posts =  async (req, res, next) => {
 
     try {
@@ -97,7 +112,7 @@ const singlePost =  async (req, res, next) => {
 
 const editPost = async (req,res,next)=>{
     
-    const{id,title,summary,content,cover} = req.body
+    const{id,title,summary,content} = req.body
     const { filename } = req.file;
     try {
         const postDoc =  await Post.findById(id)
@@ -109,8 +124,7 @@ const editPost = async (req,res,next)=>{
         title,
         summary,
         content,
-        cover:filename
-        
+        cover:filename    
     })
         res.status(200).json(postDoc)
     } catch (error) {

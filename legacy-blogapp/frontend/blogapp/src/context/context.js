@@ -1,10 +1,11 @@
-import React,{ useContext, createContext,useState } from 'react' 
+import { useContext, createContext,useState } from 'react' 
 
 
 export const UserContext = createContext({})
 
 export const AppProvider =({children})=>{
-
+    
+    const [user, setUser] = useState(null); 
     const [loading,setLoading] = useState(false)
     const [modalOpen,setModalOpen] = useState(false)
 
@@ -23,13 +24,15 @@ export const AppProvider =({children})=>{
         })
         .then((info)=>{
             setLoading(false)
-            localStorage.setItem("user",JSON.stringify(info))
+            setUser(info)
+            localStorage.setItem("user",JSON.stringify(user))
         })
         .catch(err=>{
 
             console.log("something went wrong while fetching the user",err)
             alert("something went wrong please try again later ...")
             localStorage.removeItem("user")
+            setUser(null)
             setLoading(false)
         })
 
@@ -44,6 +47,8 @@ export const AppProvider =({children})=>{
                 method: "POST",
             }).then(()=>{
                 setLoading(false)
+                setUser(null)
+
                 localStorage.removeItem("user")
 
             });

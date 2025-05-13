@@ -10,7 +10,7 @@ const ProtectedRoutes = () => {
       try {
         const resp = await fetch("http://localhost:4000/isLogged", {
           credentials: "include",
-          headers: { "Content-Type": "application/json" }
+          headers: { "Content-Type": "ap+plication/json" }
         });
         const data = await resp.json();
         const isLoggedIn = Boolean(data.logged); // Assuming 'logged' is a boolean indicating login status

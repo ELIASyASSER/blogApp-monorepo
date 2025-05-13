@@ -8,7 +8,6 @@ const xss = require("xss-clean")
 const helmet = require("helmet")
 const rateLimiter = require("express-rate-limit")
 const cookieParser = require("cookie-parser");
-const notFound = require("./middleware/notfound");
 const errorHandlerMiddleware = require("./middleware/errorhandler");
 // Middlewares
 app.use(express.json());
@@ -17,6 +16,7 @@ app.use(cors({ credentials: true, origin: ["http://localhost:3000","https://blog
 app.use(cookieParser());
 app.use(xss())
 app.use(helmet())
+
 app.use(rateLimiter({
   windowMs:10*60*1000,
   max:8000

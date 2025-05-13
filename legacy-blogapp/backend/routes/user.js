@@ -33,7 +33,9 @@ const router = express.Router()
 router.route("/register").post(register)
 router.route("/login").post(login)
 router.route("/logout").post(logout)
+
 router.route("/profile").get(authMiddleware,profile)
+
 router.route("/post").get(posts)
 router.route("/post/:id").get(singlePost).delete(authMiddleware,deletePost)
 router.post("/createPost",authMiddleware,uploadMiddleware.single('file'),createPost)

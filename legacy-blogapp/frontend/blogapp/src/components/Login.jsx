@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
-import { useUser } from '../context/context';
+// import { useUser } from '../context/context';
 import Swal from 'sweetalert2'
 function Login() {
-  const  {profileUser} = useUser()
+  // const  {profileUser} = useUser()
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [redirect, setRedirect] = useState(false);
@@ -17,7 +17,7 @@ function Login() {
       credentials: "include",
     });
     if (res.ok) {
-      profileUser()
+      // profileUser()
       setRedirect(true);
     } else {
       Swal.fire({
