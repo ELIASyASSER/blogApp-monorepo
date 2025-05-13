@@ -1,5 +1,6 @@
 import { FaEye } from 'react-icons/fa';
 import Link from 'next/link'; // Import Next.js Link component
+import Image from 'next/image';
 
 function Post({ _id, title, summary, cover, createdAt, author }) {
   const time = new Date(createdAt).toDateString();
@@ -8,10 +9,13 @@ function Post({ _id, title, summary, cover, createdAt, author }) {
     <>
       <div className='img'>
         <Link href={`/post/${_id}`} className='relative overflow-hidden'>
-          <img
+          <Image
             className='w-full h-64 object-cover transition-opacity duration-300 hover:opacity-90'
             src={`${cover}`} // Relative path for images
             alt='Post Cover'
+            width={600}
+            height={400}
+            
           />
           <FaEye className='eye bg-[rgba(0,0,0,0.5)] text-white hover:text-blue-500 m-auto rounded-lg' />
         </Link>

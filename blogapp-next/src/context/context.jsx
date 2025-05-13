@@ -1,104 +1,114 @@
-"use client"
-import { useContext, createContext,useState, useEffect } from 'react' 
-import Swal from "sweetalert2"
+"use client";
+import { useContext, createContext, useState, useEffect } from "react";
+import Swal from "sweetalert2";
 
-export const UserContext = createContext({})
+export const UserContext = createContext({});
 
-export const AppProvider =({children})=>{
+export const AppProvider = ({ children }) => {
+  const [loading, setLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [user, setUser] = useState(null);
 
-    const [loading,setLoading] = useState(false)
-    const [modalOpen,setModalOpen] = useState(false)
-    const [user, setUser] = useState(null);
+  // Function to handle errors and display Swal messages
+  const showError = (message) => {
+    Swal.fire({
+      position: "top-center",
+      icon: "error",
+      title: message || "Something went wrong, please try again later...",
+      showConfirmButton: false,
+      timer: 2000,
+    });
+  };
 
+  // Fetch the user profile from the API
+  const profileUser = async () => {
+    setLoading(true);
 
+    try {
+      const res = await fetch("/api/profile", { credentials: "include" });
 
-    const profileUser =  ()=>{
-        //call /profile endpoint to get user data
-        setLoading(true)
-
-        fetch("/api/profile", {
-            credentials: "include",
-        }).then(res=>{
-            if(res.status ==200){
-                return res.json();
-            }
-        })
-        .then((info)=>{
-            setLoading(false)
-            setUser(info?.data)
-            localStorage.setItem("user",JSON.stringify(info?.data))
-        })
-        .catch(err=>{
-
-            console.log("something went wrong while fetching the user",err)
-            
-            Swal.fire({
-                position: "top-center",
-                icon: "error",
-                title: "something went wrong please try again later ..",
-                showConfirmButton: false,
-                timer: 2000
-            });
-            setUser(null)
-            localStorage.removeItem("user")
-            setLoading(false)
-        })
-        .finally(setLoading(false))
-
-        
+      if (res.status === 200) {
+        const info = await res.json();
+        setUser(info?.data);
+        localStorage.setItem("user", JSON.stringify(info?.data));
+      } else {
+        showError("Failed to fetch user profile.");
+        setUser(null);
+        localStorage.removeItem("user");
+      }
+    } catch (err) {
+      console.log("Error fetching user:", err);
+      showError();
+      setUser(null);
+      localStorage.removeItem("user");
+    } finally {
+      setLoading(false);
     }
+  };
 
+  // Logout the user
+  const logoutUser = async () => {
+    setLoading(true);
 
-    const logoutUser = ()=>{
-        // call the /logout endpoint 
-            setLoading(true)
-            fetch("/api/logout", {
-                credentials: "include",
-                method: "POST",
-            }).then(()=>{
-                setLoading(false)
-                setUser(null)
-                localStorage.removeItem("user")
-                Swal.fire({
-                      position: "top-center",
-                      icon: "success",
-                      title: "Logged Out Successfully",
-                      showConfirmButton: false,
-                      timer: 3500
-                });
+    try {
+      await fetch("/api/logout", {
+        credentials: "include",
+        method: "POST",
+      });
 
-            });
-            
+      setUser(null);
+      localStorage.removeItem("user");
+
+      Swal.fire({
+        position: "top-center",
+        icon: "success",
+        title: "Logged Out Successfully",
+        showConfirmButton: false,
+        timer: 3500,
+      });
+    } catch (err) {
+      showError("Error logging out.");
+    } finally {
+      setLoading(false);
     }
-                
-      useEffect(() => {
-      profileUser();
-    
+  };
+
+  // Check if the user is logged in based on localStorage or API
+  const areYouLogged = () => {
+    return user !== null;
+  };
+
+  // On initial mount, check localStorage for user and fetch profile if not available
+  useEffect(() => {
+    const savedUser = localStorage.getItem("user");
+
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    } else {
+      profileUser(); // Fetch user profile if no user in localStorage
+    }
   }, []);
 
-  const areYouLogged = ()=>{
-    if(!user){
-        return false;
-    }
-    return true;
-}
+  // The context value
+  const value = {
+    profileUser,
+    logoutUser,
+    modalOpen,
+    setModalOpen,
+    loading,
+    setLoading,
+    user,
+    setUser,
+    areYouLogged,
+  };
 
+  return (
+    <UserContext.Provider value={value}>
+      {children}
+    </UserContext.Provider>
+  );
+};
 
-    const value ={
-        profileUser,
-        logoutUser,modalOpen,
-        setModalOpen,
-        loading,setLoading,
-        user,setUser,
-        areYouLogged
-        }
-
-    return(
-        <UserContext.Provider value={value} >
-                {children}
-        </UserContext.Provider>
-    ) 
-}
-export const useUser = ()=>{
-    return useContext(UserContext)
-}
+export const useUser = () => {
+  return useContext(UserContext);
+};

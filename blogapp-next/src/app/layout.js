@@ -2,7 +2,15 @@
 import Navbar from "@/components/navbar";
 import "../styles/global.css"
 import "../styles/index.css"
-import { AppProvider, useUser } from "@/context/context";
+import { AppProvider } from "@/context/context";
+import {Inter} from "next/font/google"
+// Load the font
+const inter = Inter({
+  subsets: ['latin'],
+  weight: ['400', '700'], // Optional: choose weights you use
+  display: 'swap',        // Optional: better CLS
+});
+
 
 export const metadata = {
    
@@ -18,7 +26,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
+      <body className={inter.className}>
         <AppProvider>
           <Navbar/>                
             {children}
