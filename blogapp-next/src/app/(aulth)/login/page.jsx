@@ -6,6 +6,12 @@ import React, { useEffect, useState } from 'react';
 // import { useUser } from '../context/context';
 import Swal from 'sweetalert2'
 
+export const metadata = {
+   
+  title: "login  page",
+  description: "you can login easily in this page ",
+};
+
 function Login() {
   const  {profileUser} = useUser()
   const [username, setUsername] = useState("");

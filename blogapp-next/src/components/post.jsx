@@ -15,7 +15,7 @@ function Post({ _id, title, summary, cover, createdAt, author }) {
           />
           <FaEye className='eye bg-[rgba(0,0,0,0.5)] text-white hover:text-blue-500 m-auto rounded-lg' />
         </Link>
-      </div>
+       </div>
       <div className='p-6'>
         <Link href={`/post/${_id}`}>
           <h2 className='text-3xl truncate font-bold mb-3 text-gray-900 hover:text-blue-600 transition-colors duration-300'>

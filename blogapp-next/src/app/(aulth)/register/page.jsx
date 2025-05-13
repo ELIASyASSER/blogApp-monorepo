@@ -4,7 +4,22 @@ import { useRouter } from "next/navigation";
 import Swal from 'sweetalert2';
 import Link from 'next/link';
 
+
+
+
+export const metadata = {
+   
+  title: "register  page",
+  description: "you can register your account  easily in this page ",
+};
+
+
+
+
 function Register() {
+
+
+
     const [error, setError] = useState(false);
     const [register, setRegister] = useState(false);
     const userRef = useRef(null);

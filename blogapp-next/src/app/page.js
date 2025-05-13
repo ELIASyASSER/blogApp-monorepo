@@ -1,9 +1,10 @@
 
 "use client"; // Needed if this is inside `app/` and using hooks
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 
 import Post from '@/components/post';
 import Swal from 'sweetalert2';
+import Loading from './loading';
 
 export default function Home() {  
     
@@ -35,7 +36,9 @@ export default function Home() {
             key={idx}
             className='post bg-white rounded-lg shadow-lg mb-8 transition-transform container m-4 mx-auto md:w-[45vw] overflow-hidden'
           >
-            <Post {...post} />
+            <Suspense fallback={<Loading/>}>
+                <Post {...post} />
+            </Suspense>
           </div>
         ))}
  

@@ -10,3 +10,4 @@ const postSchema = new mongoose.Schema({
 
 export const postModel =mongoose.models.Post || mongoose.model("Post",postSchema)
 
+

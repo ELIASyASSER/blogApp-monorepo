@@ -7,6 +7,12 @@ import { useUser } from '@/context/context'; // Adjust path to your context
 import Modal from '@/components/modal';       // Adjust path
 import Loading from '@/app/loading';
 
+export const metadata = {
+   
+  title: "post details page",
+  description: "you can see the  post details here ",
+};
+
 function PostPage() {
   const { modalOpen, setModalOpen,loading,setLoading,areYouLogged} = useUser();
   const [show, setShow] = useState(true);
@@ -24,9 +30,6 @@ function PostPage() {
       .catch(err => console.error(err));
     
     }, [id]);
-
-    
-    
 
     
   useEffect(()=>{

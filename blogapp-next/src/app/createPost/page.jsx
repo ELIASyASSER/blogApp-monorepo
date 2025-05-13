@@ -7,7 +7,14 @@ import 'react-quill-new/dist/quill.snow.css'
 import { useUser } from '@/context/context'
 import Loading from '../loading'
 
+export const metadata = {
+   
+  title: "create post page",
+  description: "you can create your post in this page and share your ideas to the world ",
+};
+
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
+
 
 function CreatePost() {
   const router = useRouter(); 
