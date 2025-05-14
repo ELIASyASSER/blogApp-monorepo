@@ -57,12 +57,10 @@ function PostPage() {
     <div className="max-w-5xl mx-auto my-8 p-4 bg-[#f8f8f9] rounded-lg shadow-lg">
       {/* Post Cover Image */}
       <div className="mb-4">
-        <Image
+        <img
           className="w-full h-64 object-cover rounded-lg"
           src={postInfo.cover} // Assuming the image is in /public/uploads
           alt={postInfo.title}
-          width={600}
-          height={400}
         />
       </div>
 

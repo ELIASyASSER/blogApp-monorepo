@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useUser } from '../context/context';
 import Link from 'next/link';
+import Loading from '@/app/loading';
 
 function Navbar() {
   const { loading, logoutUser, profileUser,user } = useUser();
@@ -21,7 +22,7 @@ function Navbar() {
 
       <nav className="flex items-center space-x-6">
         {loading ? (
-          <span>Loading ....</span>
+          <Loading/>
         ) : user?.username ? (
           <>
             <span>Welcome, {user.username}</span>

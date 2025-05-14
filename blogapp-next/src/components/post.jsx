@@ -10,12 +10,10 @@ function Post({ _id, title, summary, cover, createdAt, author }) {
     <>
       <div className='img'>
         <Link href={`/post/${_id}`} className='relative overflow-hidden'>
-          <Image
+          <img
             className='w-full h-64 object-cover transition-opacity duration-300 hover:opacity-90'
             src={`${cover}`} // Relative path for images
             alt='Post Cover'
-            width={600}
-            height={400}
             
           />
           <FaEye className='eye bg-[rgba(0,0,0,0.5)] text-white hover:text-blue-500 m-auto rounded-lg' />
