@@ -8,7 +8,7 @@ export const AppProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
   const [user, setUser] = useState(null);
-
+  const [loadingUser,setLoadinguser] = useState(false)
   // Function to handle errors and display Swal messages
   const showError = (message) => {
     Swal.fire({
@@ -80,12 +80,13 @@ export const AppProvider = ({ children }) => {
 
   // On initial mount, check localStorage for user and fetch profile if not available
   useEffect(() => {
+    setLoadinguser(true)
     const savedUser = localStorage.getItem("user");
 
     if (savedUser) {
       setUser(JSON.parse(savedUser));
     } else {
-      profileUser(); // Fetch user profile if no user in localStorage
+      profileUser().finally(()=>setLoadinguser(false)); // Fetch user profile if no user in localStorage
     }
   }, []);
 
@@ -100,6 +101,8 @@ export const AppProvider = ({ children }) => {
     user,
     setUser,
     areYouLogged,
+    setLoadinguser,
+    loadingUser
   };
 
   return (

@@ -1,16 +1,15 @@
 "use client";
-import { useEffect, useState } from 'react';
 import { useUser } from '../context/context';
 import Link from 'next/link';
 import Loading from '@/app/loading';
 
 function Navbar() {
-  const { loading, logoutUser, profileUser,user } = useUser();
+  const { loading, logoutUser,user,areYouLogged} = useUser();
 
 
   
 
-  return (
+  return areYouLogged()&&(
     
     <header className="bg-sky-50 flex justify-between items-center px-8 py-4 shadow-lg sticky top-0 z-30">
       <Link
@@ -22,7 +21,7 @@ function Navbar() {
 
       <nav className="flex items-center space-x-6">
         {loading ? (
-          <Loading/>
+          <span>Loading ...</span>
         ) : user?.username ? (
           <>
             <span>Welcome, {user.username}</span>

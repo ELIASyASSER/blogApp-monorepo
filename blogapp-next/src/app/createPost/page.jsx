@@ -19,6 +19,8 @@ function CreatePost() {
   const [content, setContent] = useState("");
   const [file, setFile] = useState(null);
   const [logged, setLogged] = useState(null);
+  const [creating, setCreating] = useState(false);
+
   const [redirect, setRedirect] = useState(false);
 
   // ✅ Memoize toolbar config to prevent unnecessary re-creation
@@ -67,7 +69,7 @@ function CreatePost() {
     formData.set("file", file);
 
     try {
-      setLoading(true);
+      setCreating(true);
 
       const res = await fetch("/api/createPost", {
         method: "POST",
@@ -100,9 +102,9 @@ function CreatePost() {
         icon: "error"
       });
     } finally {
-      setLoading(false);
+      setCreating(false);
     }
-  }, [title, summary, content, file, setLoading]);
+  }, [title, summary, content, file, setCreating]);
 
   // ✅ Check auth on mount
   useEffect(() => {
@@ -175,10 +177,10 @@ function CreatePost() {
         type="submit"
         disabled={loading}
         className={`w-full bg-blue-500 text-white cursor-pointer py-3 rounded-lg font-semibold transition duration-300 ${
-          loading ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-600"
+          creating ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-600"
         }`}
       >
-        {loading ? "Creating..." : "Create Post"}
+        {creating ? "Creating..." : "Create Post"}
       </button>
     </form>
   );
